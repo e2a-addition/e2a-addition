@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Konzentrationsspiel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .number-box {
+            font-size: 40px;
+            margin: 20px;
+        }
+        input {
+            font-size: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Konzentrationsspiel</h1>
+    <button onclick="startGame()">Start</button>
+    <button onclick="stopGame()">Stop</button>
+    <div class="number-box" id="numberDisplay">-</div>
+    <input type="number" id="userInput" onkeypress="checkInput(event)" autofocus>
+    <p>Punkte: <span id="score">0</span></p>
+
+    <script>
+        let currentNumber1 = 0;
+        let currentNumber2 = 0;
+        let score = 0;
+        let gameRunning = false;
+
+        function startGame() {
+            score = 0;
+            document.getElementById("score").innerText = score;
+            gameRunning = true;
+            generateNumbers();
+        }
+
+        function stopGame() {
+            gameRunning = false;
+            document.getElementById("numberDisplay").innerText = "-";
+        }
+
+        function generateNumbers() {
+            if (!gameRunning) return;
+            
+            currentNumber1 = currentNumber2;
+            currentNumber2 = Math.floor(Math.random() * 9) + 1;
+            if (currentNumber1 === 0) {
+                currentNumber1 = Math.floor(Math.random() * 9) + 1;
+            }
+            
+            document.getElementById("numberDisplay").innerText = `${currentNumber1} + ${currentNumber2}`;
+        }
+
+        function checkInput(event) {
+            if (event.key === "Enter") {
+                let userAnswer = document.getElementById("userInput").value;
+                let correctAnswer = (currentNumber1 + currentNumber2).toString()[0];
+                
+                if (userAnswer === correctAnswer) {
+                    score++;
+                    document.getElementById("score").innerText = score;
+                    document.getElementById("userInput").value = "";
+                    generateNumbers();
+                } else {
+                    alert("Falsche Eingabe! Versuche es erneut.");
+                    document.getElementById("userInput").value = "";
+                }
+            }
+        }
+    </script>
+</body>
+</html>
