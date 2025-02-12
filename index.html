@@ -137,7 +137,7 @@
       background-color: #c81f2f;
     }
     
-    /* Zahlenanzeige – Schriftgröße um eine Einheit erhöht */
+    /* Zahlenanzeige */
     .number-box {
       text-align: center;
       font-size: 3rem;
@@ -233,26 +233,6 @@
       color: var(--accent-color);
       text-decoration: none;
     }
-    
-    /* Button zum Aufrufen des Keyboards (nur auf kleinen Bildschirmen sichtbar) */
-    #keyboardButton {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      background-color: var(--main-color);
-      color: var(--background-color);
-      border: none;
-      border-radius: 50%;
-      padding: 10px;
-      font-size: 1rem;
-      z-index: 2000;
-      display: none;
-    }
-    @media (max-width: 600px) {
-      #keyboardButton {
-        display: block;
-      }
-    }
   </style>
 </head>
 <body onkeydown="handleKeyPress(event)" onload="focusGame()">
@@ -309,12 +289,6 @@
     <a href="#" id="impressumButton">Impressum</a>
   </p>
   
-  <!-- Button zum Aufrufen des Zahlentastatur-Inputs (nur auf Smartphones sichtbar) -->
-  <button id="keyboardButton">⌨️</button>
-  
-  <!-- Verstecktes Input-Feld, um das numerische Keyboard aufzurufen -->
-  <input id="hiddenKeyboardInput" type="number" inputmode="numeric" style="position: absolute; left: -9999px;">
-  
   <!-- Modal für Anleitung -->
   <div id="instructionModal" class="modal">
     <div class="modal-content">
@@ -334,9 +308,9 @@
       <span class="close" id="closeImpressum">&times;</span>
       <h2>Impressum</h2>
       <p><strong>Name/Firma des Medieninhabers:</strong><br>
-         Max Mustermann<br>
-         Musterstraße 1<br>
-         12345 Musterstadt</p>
+      Max Mustermann<br>
+      Musterstraße 1<br>
+      12345 Musterstadt</p>
       <p><strong>Unternehmensgegenstand des Medieninhabers:</strong><br>
          Gewerkschaft / Personalvertretung</p>
       <p><strong>Verantwortlich für den Inhalt:</strong><br>
@@ -540,12 +514,6 @@
         document.getElementById("impressumModal").style.display = "none";
       }
     });
-    
-    // Button zum Aufrufen des Zahlentastatur-Inputs (nur auf kleinen Bildschirmen sichtbar)
-    document.getElementById("keyboardButton").addEventListener("click", function() {
-      // Fokussiere das versteckte Input-Feld, um das numerische Keyboard zu öffnen
-      document.getElementById("hiddenKeyboardInput").focus();
-    });
   </script>
   
   <!-- Modal für Anleitung -->
@@ -576,11 +544,5 @@
          Max Mustermann</p>
     </div>
   </div>
-  
-  <!-- Verstecktes Input-Feld zur Aktivierung des numerischen Keyboards -->
-  <input id="hiddenKeyboardInput" type="number" inputmode="numeric" style="position: absolute; left: -9999px;">
-  
-  <!-- Button zum Aufrufen des Zahlentastatur-Inputs (nur auf Smartphones sichtbar) -->
-  <button id="keyboardButton">⌨️</button>
 </body>
 </html>
