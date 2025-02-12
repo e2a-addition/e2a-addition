@@ -45,13 +45,213 @@
       cursor: pointer;
     }
     
-    /* Verstecktes Eingabefeld für mobiles Keyboard */
-    #hiddenKeyboardInput {
-      position: absolute;
-      top: -100px;
-      width: 1px;
-      height: 1px;
-      opacity: 0;
+    /* Modus-Auswahl */
+    .mode-container {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    
+    .mode-button {
+      flex: 1;
+      padding: 10px 0;
+      border: 1px solid var(--main-color);
+      border-radius: 4px;
+      background-color: var(--background-color);
+      color: var(--main-color);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    
+    .mode-button:hover {
+      background-color: var(--main-color);
+      color: var(--background-color);
+    }
+    
+    .mode-button.active {
+      background-color: var(--main-color);
+      color: var(--background-color);
+    }
+    
+    input[type="number"] {
+      width: 80px;
+      padding: 8px;
+      font-size: 1rem;
+      border: 1px solid var(--main-color);
+      border-radius: 4px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+    }
+    
+    label[for="gameDuration"] {
+      font-size: 1rem;
+      color: var(--main-color);
+    }
+    
+    .checkbox-container {
+      margin: 10px 0;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .checkbox-container input {
+      margin-right: 5px;
+    }
+    
+    /* Buttons */
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+    }
+    
+    .button {
+      width: calc(50% - 10px);
+      padding: 10px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .button.start {
+      background-color: var(--main-color);
+      color: var(--background-color);
+    }
+    
+    .button.start:hover {
+      background-color: #0d133f;
+    }
+    
+    .button.stop {
+      background-color: var(--accent-color);
+      color: var(--background-color);
+    }
+    
+    .button.stop:hover {
+      background-color: #c81f2f;
+    }
+    
+    /* Zahlenanzeige – Schriftgröße um eine Einheit erhöht */
+    .number-box {
+      text-align: center;
+      font-size: 3rem;
+      margin: 20px 0;
+    }
+    
+    /* Score-Bereich */
+    .score-container {
+      display: none;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      color: var(--main-color);
+    }
+    
+    /* Zeit-Anzeige */
+    #timeDisplay {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      color: var(--main-color);
+    }
+    
+    /* Blinke-Effekt für Timer */
+    .blink {
+      animation: blink 1s linear infinite;
+    }
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    
+    button:disabled, input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    
+    /* Anleitung/Impressum-Links außerhalb des Containers */
+    .instruction-links {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--main-color);
+      margin-top: 10px;
+    }
+    .instruction-links a {
+      color: var(--main-color);
+      text-decoration: underline;
+      cursor: pointer;
+      margin: 0 5px;
+    }
+    .instruction-links a:hover {
+      color: var(--accent-color);
+    }
+    
+    /* Modal für Anleitung und Impressum */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.4);
+    }
+    
+    .modal-content {
+      background-color: var(--background-color);
+      margin: 15% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%;
+      max-width: 400px;
+      border-radius: 4px;
+    }
+    
+    /* Anleitung im Blocksatz */
+    #instructionModal .modal-content {
+      text-align: justify;
+    }
+    
+    .close {
+      color: var(--main-color);
+      float: right;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .close:hover,
+    .close:focus {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+    
+    /* Button zum Aufrufen des Keyboards (nur auf kleinen Bildschirmen sichtbar) */
+    #keyboardButton {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background-color: var(--main-color);
+      color: var(--background-color);
+      border: none;
+      border-radius: 50%;
+      padding: 10px;
+      font-size: 1rem;
+      z-index: 2000;
+      display: none;
+    }
+    @media (max-width: 600px) {
+      #keyboardButton {
+        display: block;
+      }
     }
   </style>
 </head>
@@ -60,19 +260,327 @@
     <!-- Klickbarer Titel als Easter-Egg -->
     <h1 onclick="window.location.href='https://polizei-fcg.at/'">E2a-Addition</h1>
     
+    <!-- Modus-Auswahl -->
+    <div class="mode-container">
+      <button class="mode-button active" id="btnTestMode" onclick="setMode('test')">Test Modus</button>
+      <button class="mode-button" id="btnFreeMode" onclick="setMode('free')">Freier Modus</button>
+    </div>
+    
+    <div class="input-group" style="text-align: center;">
+      <label for="gameDuration" id="gameDurationLabel">Spielzeit (Minuten):</label>
+      <br>
+      <input type="number" id="gameDuration" min="1" value="1">
+    </div>
+    
+    <!-- Checkbox unter dem Spielzeit-Feld -->
+    <div class="checkbox-container">
+      <input type="checkbox" id="showScores" onchange="toggleScoreDisplay()">
+      <label for="showScores">Ergebnisse während des Spiels anzeigen</label>
+    </div>
+    
     <div class="buttons-container">
       <button class="button start" id="startButton" onclick="startGame()">Start</button>
       <button class="button stop" onclick="stopGame()">Stopp</button>
     </div>
+    
+    <div class="number-box">
+      <div id="num1">-</div>
+      <div class="plus">+</div>
+      <div id="num2">-</div>
+    </div>
+    
+    <div class="score-container" id="scoreContainer">
+      <p>Richtige Antworten: <span id="score">0</span></p>
+      <p>Falsche Antworten: <span id="wrongAnswers">0</span></p>
+      <p>Gesamte Antworten: <span id="totalAnswers">0</span></p>
+      <p>Prozent richtig: <span id="percentCorrect">0%</span></p>
+    </div>
+    
+    <!-- Zeit-Anzeige im Format HH:MM:SS -->
+    <p id="timeDisplay">
+      <span id="timeDisplayText">Verbleibende Zeit:</span>
+      <span id="timer">00:00:00</span>
+    </p>
   </div>
   
-  <!-- Unsichtbares Eingabefeld für numerische Eingabe -->
-  <input type="number" id="hiddenKeyboardInput" inputmode="numeric">
+  <!-- Hyperlinks außerhalb des Containers -->
+  <p class="instruction-links">
+    <a href="#" id="instructionButton">Anleitung</a> | 
+    <a href="#" id="impressumButton">Impressum</a>
+  </p>
+  
+  <!-- Button zum Aufrufen des Zahlentastatur-Inputs (nur auf Smartphones sichtbar) -->
+  <button id="keyboardButton">⌨️</button>
+  
+  <!-- Verstecktes Input-Feld, um das numerische Keyboard aufzurufen -->
+  <input id="hiddenKeyboardInput" type="number" inputmode="numeric" style="position: absolute; left: -9999px;">
+  
+  <!-- Modal für Anleitung -->
+  <div id="instructionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Anleitung</h2>
+      <p>Willkommen zur E2a-Additionsübung!</p>
+      <p><strong>Spielprinzip:</strong> Zwei Zahlen werden angezeigt. Deine Aufgabe ist es diese zu addieren und die letzte Ziffer der Summe per Tastendruck einzugeben. Merke dir immer die untere Zahl, da du diese anschließend wieder mit der neu generierten Zahl addieren und eingeben musst.</p>
+      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten.</p>
+      <p><strong>Freier Modus:</strong> Es gibt keine Zeitbegrenzung. Stattdessen wird die Trainingszeit angezeigt, während du addierst.</p>
+      <p>Viel Spaß beim Üben!</p>
+    </div>
+  </div>
+  
+  <!-- Modal für Impressum -->
+  <div id="impressumModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeImpressum">&times;</span>
+      <h2>Impressum</h2>
+      <p><strong>Name/Firma des Medieninhabers:</strong><br>
+         Max Mustermann<br>
+         Musterstraße 1<br>
+         12345 Musterstadt</p>
+      <p><strong>Unternehmensgegenstand des Medieninhabers:</strong><br>
+         Gewerkschaft / Personalvertretung</p>
+      <p><strong>Verantwortlich für den Inhalt:</strong><br>
+         Max Mustermann</p>
+    </div>
+  </div>
   
   <script>
-    function startGame() {
-      document.getElementById("hiddenKeyboardInput").focus();
+    let currentNumber1 = 0;
+    let currentNumber2 = 0;
+    let score = 0;
+    let wrongAnswers = 0;
+    let gameRunning = false;
+    let firstRound = true;
+    let startTime;
+    let timerInterval;
+    let gameDuration;
+    let endTime;
+    
+    // Globaler Modus-Zustand: true = Testmodus (mit Timer), false = Freier Modus
+    let useTimerSelected = true;
+    
+    // Wandelt Sekunden in das Format HH:MM:SS um
+    function formatTime(totalSeconds) {
+      let hours = Math.floor(totalSeconds / 3600);
+      let minutes = Math.floor((totalSeconds % 3600) / 60);
+      let seconds = totalSeconds % 60;
+      return String(hours).padStart(2, '0') + ':' +
+             String(minutes).padStart(2, '0') + ':' +
+             String(seconds).padStart(2, '0');
     }
+    
+    function setMode(mode) {
+      if (gameRunning) return;
+      
+      if (mode === 'test') {
+        useTimerSelected = true;
+        document.getElementById("btnTestMode").classList.add("active");
+        document.getElementById("btnFreeMode").classList.remove("active");
+        document.getElementById("gameDuration").disabled = false;
+        document.getElementById("gameDurationLabel").style.display = "block";
+        document.getElementById("gameDuration").style.display = "inline-block";
+      } else if (mode === 'free') {
+        useTimerSelected = false;
+        document.getElementById("btnFreeMode").classList.add("active");
+        document.getElementById("btnTestMode").classList.remove("active");
+        document.getElementById("gameDuration").disabled = true;
+        document.getElementById("gameDurationLabel").style.display = "none";
+        document.getElementById("gameDuration").style.display = "none";
+      }
+      document.getElementById("timeDisplayText").innerText = useTimerSelected ? "Verbleibende Zeit:" : "Trainingszeit:";
+    }
+    
+    function startGame() {
+      score = 0;
+      wrongAnswers = 0;
+      updateScoreDisplay();
+      gameRunning = true;
+      firstRound = true;
+      document.getElementById("startButton").disabled = true;
+      document.getElementById("btnTestMode").disabled = true;
+      document.getElementById("btnFreeMode").disabled = true;
+      document.getElementById("gameDuration").disabled = true;
+      
+      let timerEl = document.getElementById("timer");
+      timerEl.classList.remove("blink");
+      timerEl.style.color = "";
+      timerEl.style.fontWeight = "";
+      timerEl.style.border = "";
+      
+      startTime = Date.now();
+      if (useTimerSelected) {
+        gameDuration = parseInt(document.getElementById("gameDuration").value) * 60000;
+        endTime = startTime + gameDuration;
+      }
+      updateTimer();
+      timerInterval = setInterval(updateTimer, 1000);
+      generateNumbers();
+    }
+    
+    function stopGame() {
+      gameRunning = false;
+      clearInterval(timerInterval);
+      document.getElementById("num1").innerText = "-";
+      document.getElementById("num2").innerText = "-";
+      updateScoreDisplay(true);
+      document.getElementById("startButton").disabled = false;
+      document.getElementById("btnTestMode").disabled = false;
+      document.getElementById("btnFreeMode").disabled = false;
+      if (useTimerSelected) {
+        document.getElementById("gameDuration").disabled = false;
+      }
+    }
+    
+    function generateNumbers() {
+      if (!gameRunning) return;
+      const mainColor = getComputedStyle(document.documentElement).getPropertyValue('--main-color').trim();
+      const bgColor = getComputedStyle(document.documentElement).getPropertyValue('--background-color').trim();
+      if (firstRound) {
+        currentNumber1 = Math.floor(Math.random() * 9) + 1;
+        // In der ersten Addition soll die obere Zahl sichtbar sein.
+        document.getElementById("num1").style.color = mainColor;
+        firstRound = false;
+      } else {
+        currentNumber1 = currentNumber2;
+        // Nach der ersten Addition soll die obere Zahl nicht mehr sichtbar sein.
+        document.getElementById("num1").style.color = bgColor;
+      }
+      // Sicherstellen, dass die neue Zahl nicht gleich der aktuellen ist.
+      do {
+        currentNumber2 = Math.floor(Math.random() * 9) + 1;
+      } while (currentNumber2 === currentNumber1);
+      
+      document.getElementById("num1").innerText = currentNumber1;
+      document.getElementById("num2").innerText = currentNumber2;
+    }
+    
+    function updateScoreDisplay(forceShow = false) {
+      let showScores = document.getElementById("showScores").checked || forceShow;
+      document.getElementById("scoreContainer").style.display = showScores ? "block" : "none";
+      document.getElementById("score").innerText = score;
+      document.getElementById("wrongAnswers").innerText = wrongAnswers;
+      let total = score + wrongAnswers;
+      document.getElementById("totalAnswers").innerText = total;
+      let percent = total > 0 ? Math.round((score / total) * 100) : 0;
+      document.getElementById("percentCorrect").innerText = percent + "%";
+    }
+    
+    function toggleScoreDisplay() {
+      let showScores = document.getElementById("showScores").checked;
+      document.getElementById("scoreContainer").style.display = showScores ? "block" : "none";
+    }
+    
+    function updateTimer() {
+      if (gameRunning) {
+        if (useTimerSelected) {
+          let remainingTime = Math.max(0, Math.ceil((endTime - Date.now()) / 1000));
+          let timerEl = document.getElementById("timer");
+          if (remainingTime <= 0) {
+            timerEl.innerText = formatTime(0);
+            timerEl.classList.add("blink");
+            setTimeout(() => {
+              timerEl.classList.remove("blink");
+            }, 3000);
+            stopGame();
+          } else {
+            timerEl.innerText = formatTime(remainingTime);
+          }
+        } else {
+          let elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+          document.getElementById("timer").innerText = formatTime(elapsedTime);
+        }
+      }
+    }
+    
+    function handleKeyPress(event) {
+      if (!gameRunning) return;
+      let userAnswer = event.key;
+      if (!isNaN(userAnswer)) {
+        let correctAnswer = (currentNumber1 + currentNumber2).toString().slice(-1);
+        if (userAnswer === correctAnswer) {
+          score++;
+        } else {
+          wrongAnswers++;
+        }
+        updateScoreDisplay();
+        generateNumbers();
+      }
+    }
+    
+    function focusGame() {
+      document.body.focus();
+      setMode('test');
+    }
+    
+    // Modal für Anleitung öffnen und schließen
+    document.getElementById("instructionButton").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("instructionModal").style.display = "block";
+    });
+    
+    document.getElementById("closeModal").addEventListener("click", function() {
+      document.getElementById("instructionModal").style.display = "none";
+    });
+    
+    // Modal für Impressum öffnen und schließen
+    document.getElementById("impressumButton").addEventListener("click", function(e) {
+      e.preventDefault();
+      document.getElementById("impressumModal").style.display = "block";
+    });
+    
+    document.getElementById("closeImpressum").addEventListener("click", function() {
+      document.getElementById("impressumModal").style.display = "none";
+    });
+    
+    window.addEventListener("click", function(event) {
+      if (event.target == document.getElementById("instructionModal")) {
+        document.getElementById("instructionModal").style.display = "none";
+      }
+      if (event.target == document.getElementById("impressumModal")) {
+        document.getElementById("impressumModal").style.display = "none";
+      }
+    });
+    
+    // Button zum Aufrufen des Zahlentastatur-Inputs (nur auf kleinen Bildschirmen sichtbar)
+    document.getElementById("keyboardButton").addEventListener("click", function() {
+      // Fokussiere das versteckte Input-Feld, um das numerische Keyboard zu öffnen
+      document.getElementById("hiddenKeyboardInput").focus();
+    });
   </script>
+  
+  <!-- Modal für Anleitung -->
+  <div id="instructionModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <h2>Anleitung</h2>
+      <p>Willkommen zur E2a-Additionsübung!</p>
+      <p><strong>Spielprinzip:</strong> Zwei Zahlen werden angezeigt. Deine Aufgabe ist es diese zu addieren und die letzte Ziffer der Summe per Tastendruck einzugeben. Merke dir immer die untere Zahl, da du diese anschließend wieder mit der neu generierten Zahl addieren und eingeben musst.</p>
+      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten.</p>
+      <p><strong>Freier Modus:</strong> Es gibt keine Zeitbegrenzung. Stattdessen wird die Trainingszeit angezeigt, während du addierst.</p>
+      <p>Viel Spaß beim Üben!</p>
+    </div>
+  </div>
+  
+  <!-- Modal für Impressum -->
+  <div id="impressumModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeImpressum">&times;</span>
+      <h2>Impressum</h2>
+      <p><strong>Name/Firma des Medieninhabers:</strong><br>
+      Max Mustermann<br>
+      Musterstraße 1<br>
+      12345 Musterstadt</p>
+      <p><strong>Unternehmensgegenstand des Medieninhabers:</strong><br>
+         Gewerkschaft / Personalvertretung</p>
+      <p><strong>Verantwortlich für den Inhalt:</strong><br>
+         Max Mustermann</p>
+    </div>
+  </div>
+  
+  <!-- Verstecktes Input-Feld zur Aktivierung des numerischen Keyboards -->
+  <input id="hiddenKeyboardInput" type="number" inputmode="numeric" style="position: absolute; left: -9999px;">
+  
+  <!-- Button zum Aufrufen des Zahlentastatur-Inputs (nur auf Smartphones sichtbar) -->
+  <button id="keyboardButton">⌨️</button>
 </body>
 </html>
