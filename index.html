@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -39,8 +39,9 @@
     
     h1 {
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 1.5rem;
+      margin-bottom: 30px;
+      font-size: 2.5rem;
+      font-weight: bold;
       color: var(--main-color);
       cursor: pointer;
     }
@@ -106,7 +107,7 @@
     .buttons-container {
       display: flex;
       justify-content: space-between;
-      margin: 15px 0;
+      margin: 15px 0 30px;
     }
     
     .button {
@@ -142,6 +143,18 @@
       text-align: center;
       font-size: 3rem;
       margin: 20px 0;
+    }
+
+    /* Neue Regel für die Zahlen */
+    #num1,
+    #num2 {
+      background-color: var(--background-color);
+      border: 2px solid var(--main-color);
+      border-radius: 8px;
+      padding: 10px 20px;
+      display: inline-block;
+      margin: 0 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
     
     /* Score-Bereich */
@@ -253,12 +266,23 @@
         display: block;
       }
     }
+
+    .title-container {
+  background-color: #ededed;       /* Rote Hintergrundfarbe */
+  padding: 20px;               /* Innenabstand, damit der Text nicht direkt am Rand klebt */
+  border-radius: 5px;          /* Optional: abgerundete Ecken */
+  margin-bottom: 20px;         /* Abstand zwischen Titelbereich und dem Rest */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* leichter Schatten */
+  }
   </style>
 </head>
 <body onkeydown="handleKeyPress(event)" onload="focusGame()">
   <div class="container">
     <!-- Klickbarer Titel als Easter-Egg -->
-    <h1 onclick="window.location.href='https://polizei-fcg.at/'">E2a-Addition</h1>
+    <div class="title-container">
+      <h1 onclick="window.location.href='https://polizei-fcg.at/'">E2a-Addition</h1>
+  </div>
+
     
     <!-- Modus-Auswahl -->
     <div class="mode-container">
@@ -415,6 +439,9 @@
       updateTimer();
       timerInterval = setInterval(updateTimer, 1000);
       generateNumbers();
+
+      // Automatisch den Fokus auf das versteckte Eingabefeld setzen:
+      document.getElementById("hiddenKeyboardInput").focus();
     }
     
     function stopGame() {
