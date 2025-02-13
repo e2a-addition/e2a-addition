@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+      <!DOCTYPE html>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -269,9 +269,9 @@
 
     .title-container {
   background-color: #ededed;       /* Rote Hintergrundfarbe */
-  padding: 20px;               /* Innenabstand, damit der Text nicht direkt am Rand klebt */
+  padding: 7px;               /* Innenabstand, damit der Text nicht direkt am Rand klebt */
   border-radius: 5px;          /* Optional: abgerundete Ecken */
-  margin-bottom: 20px;         /* Abstand zwischen Titelbereich und dem Rest */
+  margin-bottom: 25px;         /* Abstand zwischen Titelbereich und dem Rest */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* leichter Schatten */
   }
   </style>
@@ -346,7 +346,7 @@
       <h2>Anleitung</h2>
       <p>Willkommen zur E2a-Additionsübung!</p>
       <p><strong>Spielprinzip:</strong> Zwei Zahlen werden angezeigt. Deine Aufgabe ist es diese zu addieren und die letzte Ziffer der Summe per Tastendruck einzugeben. Merke dir immer die untere Zahl, da du diese anschließend wieder mit der neu generierten Zahl addieren und eingeben musst.</p>
-      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten.</p>
+      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten und der Ziffernblock dasrf zur Eingabe nicht verwendet werden.</p>
       <p><strong>Freier Modus:</strong> Es gibt keine Zeitbegrenzung. Stattdessen wird die Trainingszeit angezeigt, während du addierst.</p>
       <p>Viel Spaß beim Üben!</p>
     </div>
@@ -456,6 +456,9 @@
       if (useTimerSelected) {
         document.getElementById("gameDuration").disabled = false;
       }
+
+       // Fokus vom versteckten Eingabefeld entfernen, damit das numerische Keyboard schließt
+      document.getElementById("hiddenKeyboardInput").blur();
     }
     
     function generateNumbers() {
@@ -538,6 +541,7 @@
       document.body.focus();
       setMode('test');
     }
+
     
     // Modal für Anleitung öffnen und schließen
     document.getElementById("instructionButton").addEventListener("click", function(e) {
@@ -573,6 +577,7 @@
       // Fokussiere das versteckte Input-Feld, um das numerische Keyboard zu öffnen
       document.getElementById("hiddenKeyboardInput").focus();
     });
+
   </script>
   
   <!-- Modal für Anleitung -->
@@ -582,7 +587,7 @@
       <h2>Anleitung</h2>
       <p>Willkommen zur E2a-Additionsübung!</p>
       <p><strong>Spielprinzip:</strong> Zwei Zahlen werden angezeigt. Deine Aufgabe ist es diese zu addieren und die letzte Ziffer der Summe per Tastendruck einzugeben. Merke dir immer die untere Zahl, da du diese anschließend wieder mit der neu generierten Zahl addieren und eingeben musst.</p>
-      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten.</p>
+      <p><strong>Test Modus:</strong> Du kannst vor Übungsbeginn die Übungsdauer selbst festlegen. Beim E2a-Aufnahmetest beträgt die Dauer 20 Minuten und der Ziffernblock kann nicht verwendet werden.</p>
       <p><strong>Freier Modus:</strong> Es gibt keine Zeitbegrenzung. Stattdessen wird die Trainingszeit angezeigt, während du addierst.</p>
       <p>Viel Spaß beim Üben!</p>
     </div>
@@ -607,7 +612,5 @@
   <!-- Verstecktes Input-Feld zur Aktivierung des numerischen Keyboards -->
   <input id="hiddenKeyboardInput" type="number" inputmode="numeric" style="position: absolute; left: -9999px;">
   
-  <!-- Button zum Aufrufen des Zahlentastatur-Inputs (nur auf Smartphones sichtbar) -->
-  <button id="keyboardButton">⌨️</button>
 </body>
 </html>
